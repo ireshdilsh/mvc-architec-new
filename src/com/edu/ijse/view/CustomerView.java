@@ -344,7 +344,15 @@ public class CustomerView extends javax.swing.JFrame {
     }//GEN-LAST:event_postalcodeTextActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            updateCustomer();
+        } catch (ParseException ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
@@ -426,9 +434,9 @@ public class CustomerView extends javax.swing.JFrame {
         dobText.setText("");
         salaryText.setText("");
         addressText.setText("");
+        postalcodeText.setText("");
         cityText.setText("");
         provinceText.setText("");
-        postalcodeText.setText("");
     }
 
     private void searchCustomer() throws SQLException, ClassNotFoundException {
@@ -475,6 +483,19 @@ public class CustomerView extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(this, resp);
            getAllCustomer();
            clearTextFields();
+    }
+
+    private void updateCustomer() throws ParseException, ClassNotFoundException, SQLException {
+        
+          SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+         CustomerDto dto = new CustomerDto(idText.getText(),titleText.getText(),nameText.getText(),sdf.parse(dobText.getText()),Double.parseDouble(salaryText.getText()),addressText.getText(),cityText.getText(),provinceText.getText(),postalcodeText.getText());
+         String resp = controller.updateCustomer(dto);
+         JOptionPane.showMessageDialog(this, resp);
+         getAllCustomer();
+         clearTextFields();
+        
+         
     }
     
     

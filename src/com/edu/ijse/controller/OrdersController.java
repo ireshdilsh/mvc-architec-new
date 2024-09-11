@@ -30,6 +30,10 @@ public class OrdersController {
         OrdersDto dto = model.searchOrder(orderID);
         return dto;
     }
+
+    public String placeOrder(OrdersDto ordersDto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
     

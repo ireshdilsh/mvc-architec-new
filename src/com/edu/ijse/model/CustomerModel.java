@@ -92,5 +92,28 @@ public class CustomerModel {
        
         return resp > 0 ?"Delete Success !":"Something Went Wrong";
     }
+
+    public String updateCustomer(CustomerDto dto) throws ClassNotFoundException, SQLException {
+      
+        Connection connection = DBConnection.getInstance().getConnection();
+        String querty = "update customer set CustTitle=?,CustName=?,DOB=?,salary=?,CustAddress=?,City=?,Province=?,PostalCode=? where CustID=?";
+        PreparedStatement statement = connection.prepareStatement(querty);
+        
+        statement.setString(1, dto.getCustTitle());
+        statement.setString(2, dto.getCustName());
+        statement.setDate(3, new Date(dto.getDob().getTime()));
+        statement.setDouble(4, dto.getSalary());
+        statement.setString(5, dto.getAddress());
+        statement.setString(6, dto.getCity());
+        statement.setString(7, dto.getProvince());
+        statement.setString(8, dto.getZipCode());
+        statement.setString(9, dto.getCustID());
+
+        int resp = statement.executeUpdate();
+        
+        return resp > 0 ? "Success !":"Something went Wrong";
+    }
+
+   
     
 }

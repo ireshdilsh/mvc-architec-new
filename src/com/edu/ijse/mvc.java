@@ -10,7 +10,7 @@ public class mvc {
 
    
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-      new OrdersView().setVisible(true);
+      new CustomerView().setVisible(true);
     }
     
 }

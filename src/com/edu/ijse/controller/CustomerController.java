@@ -13,6 +13,8 @@ public class CustomerController {
         this.customerModel = new CustomerModel();
     }
 
+   
+     
     public String saveCustomer(CustomerDto dto) throws ClassNotFoundException, SQLException {
         String resp = customerModel.saveCustomer(dto);
         return resp;
@@ -30,6 +32,11 @@ public class CustomerController {
 
     public String deleteCustomer(String id) throws ClassNotFoundException, SQLException {
         String resp = customerModel.deleteCustomer(id);
+        return resp;
+    }
+
+    public String updateCustomer(CustomerDto dto) throws ClassNotFoundException, SQLException {
+        String resp = customerModel.updateCustomer(dto);
         return resp;
     }
 

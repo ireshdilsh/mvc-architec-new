@@ -85,11 +85,11 @@ public class ItemModel {
         String querry = "update item set Description = ?, PackSize = ?, UnitPrice = ?, QtyOnHand = ? where ItemCode = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(querry);
         
-        preparedStatement.setString(1, itemDto.getItemCode());
-        preparedStatement.setString(2, itemDto.getDiscription());
-        preparedStatement.setString(3, itemDto.getPackSize());
-        preparedStatement.setDouble(4, itemDto.getUnitPrice());
-        preparedStatement.setInt(5, itemDto.getQuantityOnHand());
+        preparedStatement.setString(1, itemDto.getDiscription());
+        preparedStatement.setString(2, itemDto.getPackSize());
+        preparedStatement.setDouble(3, itemDto.getUnitPrice());
+        preparedStatement.setInt(4, itemDto.getQuantityOnHand());
+        preparedStatement.setString(5, itemDto.getItemCode());
         
         int resp = preparedStatement.executeUpdate();
         

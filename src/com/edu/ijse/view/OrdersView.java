@@ -7,6 +7,7 @@ package com.edu.ijse.view;
 import com.edu.ijse.controller.OrdersController;
 import com.edu.ijse.dto.OrdersDto;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -87,6 +88,11 @@ public class OrdersView extends javax.swing.JFrame {
 
         saveButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         deleteButton.setText("Delete");
@@ -169,6 +175,14 @@ public class OrdersView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ordersViewTableMouseClicked
 
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        try {
+            placeOrder();
+        } catch (ParseException ex) {
+            Logger.getLogger(OrdersView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_saveButtonActionPerformed
+
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField custidText;
@@ -215,5 +229,20 @@ public class OrdersView extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Can't find this Order");
         }
+    }
+
+    private void placeOrder() throws ParseException {
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        OrdersDto ordersDto = new OrdersDto(orderIdText.getText(),sdf.parse(dateText.getText()),custidText.getText());
+        String resp = ordersController.placeOrder(ordersDto);
+        JOptionPane.showMessageDialog(this, resp);
+        clearTextFields();
+    }
+    
+    private void clearTextFields(){
+        orderIdText.setText("");
+        dateText.setText("");
+        custidText.setText("");
     }
 }

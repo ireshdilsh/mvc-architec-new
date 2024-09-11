@@ -378,6 +378,10 @@ public class ItemView extends javax.swing.JFrame {
 
     private void updateItem() throws ClassNotFoundException, SQLException {         
         
+         ItemDto itemDto = new ItemDto(itemcodeText.getText(),discriptionText.getText(),packsizeText.getText(),Double.parseDouble(unitpriceText.getText()),Integer.parseInt(qtyText.getText()));
+
+        String resp = itemController.updateItem(itemDto);
+        JOptionPane.showMessageDialog(this, resp);
         clearTextFields();
         getAllItems();
     }
