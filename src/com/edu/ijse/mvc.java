@@ -1,8 +1,6 @@
 package com.edu.ijse;
 
-import com.edu.ijse.view.CustomerView;
-import com.edu.ijse.view.ItemView;
-import com.edu.ijse.view.OrdersView;
+import com.edu.ijse.view.LayOut;
 import java.sql.SQLException;
 
 
@@ -10,7 +8,7 @@ public class mvc {
 
    
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-      new CustomerView().setVisible(true);
+      new LayOut().setVisible(true);
     }
     
 }
