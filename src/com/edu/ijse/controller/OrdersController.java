@@ -32,13 +32,10 @@ public class OrdersController {
         return dto;
     }
 
-    public String placeOrder(OrdersDto dto, ArrayList<OrderDetailDto> orderDetailDtos) throws ClassNotFoundException, SQLException {
-        String resp = model.placeOrder(dto,orderDetailDtos);
+    public String placeOrder(OrdersDto dto, ArrayList<OrderDetailDto> orderDetailDtos) throws SQLException, ClassNotFoundException {
+        String resp = model.saveOrders(dto,orderDetailDtos);
         return resp;
     }
 
    
-    
-    
-    
 }

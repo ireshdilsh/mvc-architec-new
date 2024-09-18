@@ -55,45 +55,83 @@ public class OrdersModel {
         return null;
     }
 
-    public String searchCustomer(String id) {
-        CustomerDto dto = new CustomerDto();
-        String custID = dto.getCustID();
-        
-        if (custID == id) {
-            return custID;
+    public String saveOrders(OrdersDto dto, ArrayList<OrderDetailDto> orderDetailDtos) throws SQLException, ClassNotFoundException {
+         
+        Connection connection = DBConnection.getInstance().getConnection();
+
+        try {
+            connection.setAutoCommit(false);
+
+            String orderQuery = "INSERT INTO orders VALUES (?,?,?)";
+
+            PreparedStatement statementForOrder = connection.prepareStatement(orderQuery);
+            statementForOrder.setString(1, dto.getO_Id());
+            statementForOrder.setDate(2, new Date(dto.getDate().getTime()));
+            statementForOrder.setString(3, dto.getCustId());
+
+            if (statementForOrder.executeUpdate() > 0) {
+
+                boolean isOrderDetailsSaved = true;
+                String orderDetailQuery = "INSERT INTO orderdetail VALUES (?,?,?,?)";
+
+                for (OrderDetailDto orderDetailModel : orderDetailDtos) {
+                    PreparedStatement statementForOrderDetail = connection.prepareStatement(orderDetailQuery);
+                    statementForOrderDetail.setString(1, dto.getO_Id());
+                    statementForOrderDetail.setString(2, orderDetailModel.getItemCode());
+                    statementForOrderDetail.setInt(3, orderDetailModel.getQty());
+                    statementForOrderDetail.setDouble(4, orderDetailModel.getDiscount());
+
+                    if (!(statementForOrderDetail.executeUpdate() > 0)) {
+                        isOrderDetailsSaved = false;
+                    }
+                }
+
+                if (isOrderDetailsSaved) {
+                    boolean isItemUpdated = true;
+                    String itemQuery = "UPDATE item SET QtyOnHand = QtyOnHand - ? WHERE ItemCode = ?";
+
+                    for (OrderDetailDto detailDto : orderDetailDtos) {
+                        PreparedStatement statementForItem = connection.prepareStatement(itemQuery);
+
+                        statementForItem.setInt(1, detailDto.getQty());
+                        statementForItem.setString(2, detailDto.getItemCode());
+
+                        if (!(statementForItem.executeUpdate() > 0)) {
+                            isItemUpdated = false;
+                        }
+                    }
+                    
+                    if(isItemUpdated){
+                        connection.commit();
+                        return "Success";
+                    } else{
+                        connection.rollback();
+                        return "Item Save Error";
+                    }
+                    
+                } else {
+                    connection.rollback();
+                    return "Order Detail Save Error";
+                }
+
+            } else {
+                connection.rollback();
+                return "Order Save Error";
+            }
+
+        } catch (Exception e) {
+            connection.rollback();
+            e.printStackTrace();
+            return e.getMessage();
+        } finally {
+            connection.setAutoCommit(true);
         }
         
-        return "fail";
+    }
     }
 
-    public String placeOrder(OrdersDto dto, ArrayList<OrderDetailDto> orderDetailDtos) throws ClassNotFoundException, SQLException {
-        
-        Connection connection = DBConnection.getInstance().getConnection();
-        
-        String querryForOrders = "insert into orders values(?,?,?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(querryForOrders);
-        preparedStatement.setString(1, dto.getO_Id());
-        preparedStatement.setDate(2,new Date(dto.getDate().getTime()));
-        preparedStatement.setString(3, dto.getCustId());
-        
-        if (preparedStatement.executeUpdate() > 0) {
-            
-            // insert data in orderdetail table
-            boolean isOrderDetailsSaved = true;
-            
-            String querryForOrderDeatil = "insert into orderdetail values(?,?,?,?)";
-            PreparedStatement statement = connection.prepareStatement(querryForOrderDeatil);
-              
-            for (OrderDetailDto orderDetailDto : orderDetailDtos) {
-                statement.setString(1, dto.getO_Id());
-                statement.setString(2, orderDetailDto.getItemCode());
-                statement.setInt(3, orderDetailDto.getQty());
-                statement.setDouble(4,orderDetailDto.getDiscount());
-          
-            }
-            return "Sucess";
-        }
-        return "Fail";                
-    }
+
+
     
-}
+            
+      

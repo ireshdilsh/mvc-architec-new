@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -159,6 +160,12 @@ public class OrdersPanel extends javax.swing.JPanel {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setText("Order ID");
+
+        orderIdText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                orderIdTextActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -306,15 +313,21 @@ public class OrdersPanel extends javax.swing.JPanel {
 
     private void placeOrderButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderButton
             try {
-                placeOrder();
+                try {
+                    placeOrder();
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } catch (ParseException ex) {
-                Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
                 Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
     }//GEN-LAST:event_placeOrderButton
+
+    private void orderIdTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderIdTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_orderIdTextActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -364,6 +377,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         
         DefaultTableModel dtm = (DefaultTableModel) addTable.getModel();
         dtm.addRow(rowData);
+ 
    }
 
     private void searchOrder() throws ClassNotFoundException, SQLException {
@@ -379,15 +393,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         }
     }
 
-    private void placeOrder() throws ParseException, ClassNotFoundException, SQLException {
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        OrdersDto dto = new OrdersDto(orderIdText.getText(),sdf.parse(dateText.getText()),custidText.getText());
-        String resp = ordersController.placeOrder(dto,orderDetailDtos);
-        JOptionPane.showMessageDialog(this, resp);
-        clearTextFields();
-        clearTableRows();
-    }
+     
     
     private void clearTextFields(){
         dateText.setText("");
@@ -417,6 +423,15 @@ public class OrdersPanel extends javax.swing.JPanel {
         }else{
             saerchItemLabel1.setText("Item Not Found");
         }
+    }
+
+    private void placeOrder() throws ParseException, ClassNotFoundException, SQLException {
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        OrdersDto dto = new OrdersDto(orderIdText.getText(), sdf.parse(dateText.getText()), custidText.getText());
+        String resp = ordersController.placeOrder(dto, orderDetailDtos);
+        JOptionPane.showMessageDialog(this, resp);
+        clearTextFields();
     }
 
 }
