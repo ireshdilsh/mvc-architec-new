@@ -4,6 +4,7 @@
  */
 package com.edu.ijse.controller;
 
+import com.edu.ijse.dto.OrderDetailDto;
 import com.edu.ijse.dto.OrdersDto;
 import com.edu.ijse.model.OrdersModel;
 import java.sql.SQLException;
@@ -31,8 +32,9 @@ public class OrdersController {
         return dto;
     }
 
-    public String placeOrder(OrdersDto ordersDto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String placeOrder(OrdersDto dto, ArrayList<OrderDetailDto> orderDetailDtos) throws ClassNotFoundException, SQLException {
+        String resp = model.placeOrder(dto,orderDetailDtos);
+        return resp;
     }
 
    

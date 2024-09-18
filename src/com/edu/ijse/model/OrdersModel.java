@@ -6,6 +6,7 @@ package com.edu.ijse.model;
 
 import com.edu.ijse.db.DBConnection;
 import com.edu.ijse.dto.CustomerDto;
+import com.edu.ijse.dto.OrderDetailDto;
 import com.edu.ijse.dto.OrdersDto;
 import java.util.ArrayList;
 import java.sql.*;
@@ -42,7 +43,7 @@ public class OrdersModel {
         ResultSet rst = statement.executeQuery();
         
         while (rst.next()) {            
-            OrdersDto dto = new OrdersDto();
+             OrdersDto dto = new OrdersDto();
             
             dto.setO_Id(rst.getString(1));
             dto.setDate(rst.getDate(2));
@@ -63,6 +64,36 @@ public class OrdersModel {
         }
         
         return "fail";
+    }
+
+    public String placeOrder(OrdersDto dto, ArrayList<OrderDetailDto> orderDetailDtos) throws ClassNotFoundException, SQLException {
+        
+        Connection connection = DBConnection.getInstance().getConnection();
+        
+        String querryForOrders = "insert into orders values(?,?,?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(querryForOrders);
+        preparedStatement.setString(1, dto.getO_Id());
+        preparedStatement.setDate(2,new Date(dto.getDate().getTime()));
+        preparedStatement.setString(3, dto.getCustId());
+        
+        if (preparedStatement.executeUpdate() > 0) {
+            
+            // insert data in orderdetail table
+            boolean isOrderDetailsSaved = true;
+            
+            String querryForOrderDeatil = "insert into orderdetail values(?,?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(querryForOrderDeatil);
+              
+            for (OrderDetailDto orderDetailDto : orderDetailDtos) {
+                statement.setString(1, dto.getO_Id());
+                statement.setString(2, orderDetailDto.getItemCode());
+                statement.setInt(3, orderDetailDto.getQty());
+                statement.setDouble(4,orderDetailDto.getDiscount());
+          
+            }
+            return "Sucess";
+        }
+        return "Fail";                
     }
     
 }

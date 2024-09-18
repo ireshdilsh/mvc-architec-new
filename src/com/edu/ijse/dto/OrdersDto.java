@@ -4,6 +4,7 @@
  */
 package com.edu.ijse.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -50,7 +51,7 @@ public class OrdersDto {
 
     @Override
     public String toString() {
-        return "OrdersDto{" + "o_Id=" + o_Id + ", date=" + date + ", custId=" + custId + '}';
+        return "OrdersDto{" + "o_Id=" + o_Id + ", date=" + date + ", custId=" + custId + ", detailDtos="  + '}';
     }
     
 }
