@@ -10,6 +10,7 @@ import com.edu.ijse.dto.OrderDetailDto;
 import com.edu.ijse.dto.OrdersDto;
 import java.util.ArrayList;
 import java.sql.*;
+
 /**
  *
  * @author Admin
@@ -21,15 +22,15 @@ public class OrdersModel {
         String querry = "select * from orders";
         PreparedStatement preparedStatement = connection.prepareStatement(querry);
         ResultSet rst = preparedStatement.executeQuery();
-        
-        ArrayList<OrdersDto>dtos = new ArrayList<>();
-        
-        while (rst.next()) {            
+
+        ArrayList<OrdersDto> dtos = new ArrayList<>();
+
+        while (rst.next()) {
             OrdersDto dto = new OrdersDto();
             dto.setCustId(rst.getString(1));
             dto.setDate(rst.getDate(2));
             dto.setO_Id(rst.getString(3));
-            
+
             dtos.add(dto);
         }
         return dtos;
@@ -41,22 +42,22 @@ public class OrdersModel {
         PreparedStatement statement = connection.prepareStatement(querry);
         statement.setString(1, orderID);
         ResultSet rst = statement.executeQuery();
-        
-        while (rst.next()) {            
-             OrdersDto dto = new OrdersDto();
-            
+
+        while (rst.next()) {
+            OrdersDto dto = new OrdersDto();
+
             dto.setO_Id(rst.getString(1));
             dto.setDate(rst.getDate(2));
             dto.setCustId(rst.getString(3));
-            
+
             return dto;
         }
-        
+
         return null;
     }
 
     public String saveOrders(OrdersDto dto, ArrayList<OrderDetailDto> orderDetailDtos) throws SQLException, ClassNotFoundException {
-         
+
         Connection connection = DBConnection.getInstance().getConnection();
 
         try {
@@ -100,15 +101,15 @@ public class OrdersModel {
                             isItemUpdated = false;
                         }
                     }
-                    
-                    if(isItemUpdated){
+
+                    if (isItemUpdated) {
                         connection.commit();
                         return "Success";
-                    } else{
+                    } else {
                         connection.rollback();
                         return "Item Save Error";
                     }
-                    
+
                 } else {
                     connection.rollback();
                     return "Order Detail Save Error";
@@ -126,12 +127,6 @@ public class OrdersModel {
         } finally {
             connection.setAutoCommit(true);
         }
-        
+
     }
-    }
-
-
-
-    
-            
-      
+}

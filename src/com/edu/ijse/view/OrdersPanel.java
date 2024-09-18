@@ -377,6 +377,8 @@ public class OrdersPanel extends javax.swing.JPanel {
         
         DefaultTableModel dtm = (DefaultTableModel) addTable.getModel();
         dtm.addRow(rowData);
+        
+        
  
    }
 
@@ -432,6 +434,13 @@ public class OrdersPanel extends javax.swing.JPanel {
         String resp = ordersController.placeOrder(dto, orderDetailDtos);
         JOptionPane.showMessageDialog(this, resp);
         clearTextFields();
+        clearAddTable();
+    }
+
+    private void clearAddTable() {
+        DefaultTableModel dm = (DefaultTableModel)addTable.getModel();
+        dm.getDataVector().removeAllElements();
+        dm.fireTableDataChanged();
     }
 
 }
