@@ -5,6 +5,7 @@
 package com.edu.ijse.model;
 
 import com.edu.ijse.db.DBConnection;
+import com.edu.ijse.dto.CustomerDto;
 import com.edu.ijse.dto.OrdersDto;
 import java.util.ArrayList;
 import java.sql.*;
@@ -51,6 +52,17 @@ public class OrdersModel {
         }
         
         return null;
+    }
+
+    public String searchCustomer(String id) {
+        CustomerDto dto = new CustomerDto();
+        String custID = dto.getCustID();
+        
+        if (custID == id) {
+            return custID;
+        }
+        
+        return "fail";
     }
     
 }
