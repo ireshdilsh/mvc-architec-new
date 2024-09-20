@@ -435,6 +435,8 @@ public class OrdersPanel extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, resp);
         clearTextFields();
         clearAddTable();
+        saerchCustomerLabel.setText("none");
+        saerchItemLabel1.setText("none");
     }
 
     private void clearAddTable() {

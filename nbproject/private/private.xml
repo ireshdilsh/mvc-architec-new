@@ -5,7 +5,6 @@
         <group>
             <file>file:/C:/Users/Admin/Documents/NetBeansProjects/mvc-architecture/src/com/edu/ijse/controller/OrdersController.java</file>
             <file>file:/C:/Users/Admin/Documents/NetBeansProjects/mvc-architecture/src/com/edu/ijse/dto/OrdersDto.java</file>
-            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/mvc-architecture/src/com/edu/ijse/dto/OrderDetailDto.java</file>
             <file>file:/C:/Users/Admin/Documents/NetBeansProjects/mvc-architecture/src/com/edu/ijse/view/OrdersPanel.java</file>
             <file>file:/C:/Users/Admin/Documents/NetBeansProjects/mvc-architecture/src/com/edu/ijse/model/OrdersModel.java</file>
         </group>
